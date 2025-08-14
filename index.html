@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke Bars Map</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for map container and loading spinner */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #map {
+            flex-grow: 1; /* Allow map to take available space */
+            height: 100%; /* Ensure map fills its container */
+            min-height: 400px; /* Minimum height to ensure visibility */
+            width: 100%;
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #6366f1; /* Tailwind indigo-500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Make info window content look nice */
+        .info-window-content h3 {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .info-window-content p {
+            margin-bottom: 0.25rem;
+            color: #555;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 flex flex-col items-center">
+    <header class="w-full max-w-4xl mb-6 text-center">
+        <h1 class="text-4xl font-extrabold text-indigo-700 mb-2">
+            🎤 Karaoke Fun Finder 🎶
+        </h1>
+        <p class="text-gray-600 text-lg">
+            Discover nearby karaoke bars and sing your heart out!
+        </p>
+    </header>
+
+    <main class="w-full max-w-4xl bg-white p-6 rounded-lg shadow-xl">
+        <div id="loading-message" class="flex flex-col items-center justify-center p-8">
+            <div class="loading-spinner mb-4"></div>
+            <p class="text-gray-700 text-lg">Loading the map...</p>
+        </div>
+        <div id="map" class="w-full hidden"></div>
+    </main>
+
+    <footer class="w-full max-w-4xl mt-6 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 Karaoke Fun Finder. All rights reserved. Data mocked for demonstration.</p>
+    </footer>
+
+    <script>
+        // Set up the Google Maps API key (leave empty; Canvas will inject it)
+        const GOOGLE_MAPS_API_KEY = ""; // Replace with your actual API key if running externally
+
+        // Mock data for karaoke bars
+        const karaokeBars = [
+            {
+                name: "The Velvet Mic",
+                lat: 40.7128,
+                lng: -74.0060,
+                address: "123 Main St, New York, NY",
+                phone: "(212) 555-1234",
+                website: "https://www.thevelvetmic.com"
+            },
+            {
+                name: "Singing Sushi Bar",
+                lat: 40.7580,
+                lng: -73.9855,
+                address: "45 Times Sq, New York, NY",
+                phone: "(646) 777-8888",
+                website: "https://www.singingsushi.com"
+            },
+            {
+                name: "Karaoke Kingdom",
+                lat: 40.7306,
+                lng: -73.9972,
+                address: "88 E 3rd St, New York, NY",
+                phone: "(917) 111-2222",
+                website: "https://www.karaokekingdom.net"
+            },
+            {
+                name: "The Crooner's Corner",
+                lat: 40.7061,
+                lng: -74.0116,
+                address: "7 Hanover Sq, New York, NY",
+                phone: "(212) 999-0000",
+                website: "https://www.croonerscorner.org"
+            },
+            {
+                name: "Rhapsody Lounge",
+                lat: 40.7418,
+                lng: -74.0023,
+                address: "100 W 14th St, New York, NY",
+                phone: "(212) 333-4444",
+                website: "https://www.rhapsodylounge.com"
+            }
+        ];
+
+        let map; // Declare map variable globally or accessible to initMap
+        let markers = []; // Array to store map markers
+
+        /**
+         * Initializes the Google Map. This function is called by the Google Maps API script.
+         */
+        function initMap() {
+            // Hide loading message and show map
+            document.getElementById('loading-message').classList.add('hidden');
+            document.getElementById('map').classList.remove('hidden');
+
+            // Center map on New York City (approximate coordinates)
+            const nyc = { lat: 40.7128, lng: -74.0060 };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: nyc,
+                zoom: 12, // Adjust zoom level as needed
+                mapId: "DEMO_MAP_ID" // Use a map ID for custom styles (optional)
+            });
+
+            // Add markers for each karaoke bar
+            addKaraokeBarMarkers();
+        }
+
+        /**
+         * Adds markers to the map for each karaoke bar in the data.
+         */
+        function addKaraokeBarMarkers() {
+            const infoWindow = new google.maps.InfoWindow(); // Single info window
+
+            karaokeBars.forEach(bar => {
+                const marker = new google.maps.Marker({
+                    position: { lat: bar.lat, lng: bar.lng },
+                    map: map,
+                    title: bar.name,
+                    // You can use a custom icon here if desired
+                    // icon: 'path/to/karaoke_icon.png'
+                });
+
+                // Store marker in array for potential future management
+                markers.push(marker);
+
+                // Create info window content
+                const contentString = `
+                    <div class="info-window-content p-2">
+                        <h3 class="text-lg text-indigo-700">${bar.name}</h3>
+                        <p>${bar.address}</p>
+                        <p>Phone: <a href="tel:${bar.phone}" class="text-blue-600 hover:underline">${bar.phone}</a></p>
+                        <p>Website: <a href="${bar.website}" target="_blank" class="text-blue-600 hover:underline">Visit Website</a></p>
+                    </div>
+                `;
+
+                // Add click listener to open info window
+                marker.addListener("click", () => {
+                    infoWindow.setContent(contentString);
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+
+        // Load the Google Maps API script dynamically
+        function loadGoogleMapsScript() {
+            if (typeof google === 'object' && typeof google.maps === 'object') {
+                // If Google Maps API is already loaded, initialize the map
+                initMap();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            script.onerror = () => {
+                // Handle error if script fails to load
+                document.getElementById('loading-message').innerHTML = `
+                    <p class="text-red-500 text-lg">
+                        Failed to load Google Maps. Please check your internet connection or API key.
+                    </p>
+                `;
+            };
+            document.head.appendChild(script);
+        }
+
+        // Call the function to load the script when the window loads
+        window.onload = loadGoogleMapsScript;
+    </script>
+</body>
+</html>
