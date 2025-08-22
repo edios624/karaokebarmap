@@ -189,7 +189,6 @@ document.getElementById('karaokeForm').addEventListener('submit', function(event
     const userConfirmation = confirm(confirmationMessage);
 
     if (userConfirmation) {
-        // Updated URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwmV6yznDONGX-z0hmLiU_heK177NJQsqaFvqc__Fr5oTexOEiivtL2iqINqz74ZmTDiA/exec';
 
         fetch(scriptURL, {
