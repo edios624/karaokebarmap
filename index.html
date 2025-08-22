@@ -75,24 +75,28 @@
                 <legend>Karaoke Details</legend>
                 <div class="form-group">
                     <label>Karaoke Times of Operation</label>
-                    <div id="timesOfOperation">
-                        <div class="day-time-group">
-                            <select name="day">
-                                <option value="" disabled selected>Select Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                                <option value="Sunday">Sunday</option>
-                            </select>
-                            <input type="time" name="startTime" placeholder="Start Time">
-                            to
-                            <input type="time" name="endTime" placeholder="End Time">
-                            <button type="button" class="add-btn" onclick="addTimeSlot()">Add More</button>
-                        </div>
+                    <div id="timeInputGroup" class="day-time-group">
+                        <select id="daySelect" name="day">
+                            <option value="" disabled selected>Select Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                        <select id="startTimeSelect" name="startTime">
+                            <option value="" disabled selected>Start Time</option>
+                        </select>
+                        to
+                        <select id="endTimeSelect" name="endTime">
+                            <option value="" disabled selected>End Time</option>
+                        </select>
+                        <button type="button" class="add-btn" onclick="addTimeSlot()">Add</button>
                     </div>
+                    <div id="timeDisplayList">
+                        </div>
                 </div>
 
                 <div class="form-group">
@@ -118,14 +122,35 @@
                     <label>What languages are available?</label>
                     <div class="checkbox-group">
                         <label><input type="checkbox" name="languages" value="English"> English</label>
+                        <label><input type="checkbox" name="languages" value="Mandarin Chinese"> Mandarin Chinese</label>
+                        <label><input type="checkbox" name="languages" value="Hindi"> Hindi</label>
                         <label><input type="checkbox" name="languages" value="Spanish"> Spanish</label>
                         <label><input type="checkbox" name="languages" value="French"> French</label>
-                        <label><input type="checkbox" name="languages" value="German"> German</label>
-                        <label><input type="checkbox" name="languages" value="Italian"> Italian</label>
+                        <label><input type="checkbox" name="languages" value="Arabic"> Arabic</label>
+                        <label><input type="checkbox" name="languages" value="Bengali"> Bengali</label>
+                        <label><input type="checkbox" name="languages" value="Russian"> Russian</label>
                         <label><input type="checkbox" name="languages" value="Portuguese"> Portuguese</label>
-                        <label><input type="checkbox" name="languages" value="Mandarin"> Mandarin</label>
+                        <label><input type="checkbox" name="languages" value="Urdu"> Urdu</label>
+                        <label><input type="checkbox" name="languages" value="Indonesian"> Indonesian</label>
+                        <label><input type="checkbox" name="languages" value="German"> German</label>
                         <label><input type="checkbox" name="languages" value="Japanese"> Japanese</label>
+                        <label><input type="checkbox" name="languages" value="Nigerian Pidgin"> Nigerian Pidgin</label>
+                        <label><input type="checkbox" name="languages" value="Marathi"> Marathi</label>
+                        <label><input type="checkbox" name="languages" value="Telugu"> Telugu</label>
+                        <label><input type="checkbox" name="languages" value="Turkish"> Turkish</label>
+                        <label><input type="checkbox" name="languages" value="Tamil"> Tamil</label>
+                        <label><input type="checkbox" name="languages" value="Vietnamese"> Vietnamese</label>
                         <label><input type="checkbox" name="languages" value="Korean"> Korean</label>
+                        <label><input type="checkbox" name="languages" value="Wu Chinese"> Wu Chinese</label>
+                        <label><input type="checkbox" name="languages" value="Javanese"> Javanese</label>
+                        <label><input type="checkbox" name="languages" value="Persian"> Persian</label>
+                        <label><input type="checkbox" name="languages" value="Swahili"> Swahili</label>
+                        <label><input type="checkbox" name="languages" value="Thai"> Thai</label>
+                        <label><input type="checkbox" name="languages" value="Italian"> Italian</label>
+                        <label><input type="checkbox" name="languages" value="Gujarati"> Gujarati</label>
+                        <label><input type="checkbox" name="languages" value="Western Punjabi"> Western Punjabi</label>
+                        <label><input type="checkbox" name="languages" value="Yoruba"> Yoruba</label>
+                        <label><input type="checkbox" name="languages" value="Polish"> Polish</label>
                         <label><input type="checkbox" name="languages" value="Other"> Other</label>
                     </div>
                 </div>
